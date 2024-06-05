@@ -1,6 +1,6 @@
-﻿namespace SaleKiosk.Domain.Exceptions
+﻿namespace TravelAgency.Domain.Exceptions
 {
-    // Wyjątek: żądanie użytkownika zawiera błędy
+    // User request have errors
     public class BadRequestException : Exception
     {
         public BadRequestException(string message) : base(message) { }

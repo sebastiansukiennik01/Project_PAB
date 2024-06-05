@@ -8,11 +8,13 @@ namespace TravelAgency.Infrastructure
         private readonly DatabaseContext _context;
 
         public IOfferRepository OfferRepository { get; }
+        public ICityRepository CityRepository { get; }
 
-        public TravelAgencyUnitOfWork(DatabaseContext context, IOfferRepository offerRepository)
+        public TravelAgencyUnitOfWork(DatabaseContext context, IOfferRepository offerRepository, ICityRepository cityRepository)
         {
             this._context = context;
             this.OfferRepository = offerRepository;
+            this.CityRepository = cityRepository;
         }
 
         public void Commit()

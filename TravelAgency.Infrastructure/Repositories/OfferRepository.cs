@@ -8,7 +8,7 @@ using TravelAgency.Domain.Models;
 
 namespace TravelAgency.Infrastructure.Repositories
 {
-    public class OfferRepository : Repository<Offer>
+    public class OfferRepository : Repository<Offer>, IOfferRepository
     {
         private readonly DatabaseContext _travelAgencyDbContext;
 
