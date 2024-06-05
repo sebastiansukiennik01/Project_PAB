@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "MyProject": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_DETAILEDERRORS": "true"
+      }
+    }
+  }
+}
