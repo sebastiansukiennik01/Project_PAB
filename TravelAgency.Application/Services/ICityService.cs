@@ -1,4 +1,4 @@
-﻿using TravelAgency.SharedKernel.Dto;
+﻿using TravelAgency.SharedKernel.Dto.City;
 
 namespace TravelAgency.Application.Services
 {

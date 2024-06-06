@@ -7,14 +7,25 @@ namespace TravelAgency.Infrastructure
     {
         private readonly DatabaseContext _context;
 
-        public IOfferRepository OfferRepository { get; }
+        public ICountryRepository CountryRepository { get; }
+        public IHotelRepository HotelRepository { get; }
         public ICityRepository CityRepository { get; }
+        public IOfferRepository OfferRepository { get; }
 
-        public TravelAgencyUnitOfWork(DatabaseContext context, IOfferRepository offerRepository, ICityRepository cityRepository)
+
+        public TravelAgencyUnitOfWork(
+            DatabaseContext context,
+            ICountryRepository countryRepository,
+            ICityRepository cityRepository,
+            IHotelRepository  hotelRepository,
+            IOfferRepository offerRepository
+        )
         {
             this._context = context;
             this.OfferRepository = offerRepository;
             this.CityRepository = cityRepository;
+            this.CountryRepository = countryRepository;
+            this.HotelRepository = hotelRepository;
         }
 
         public void Commit()

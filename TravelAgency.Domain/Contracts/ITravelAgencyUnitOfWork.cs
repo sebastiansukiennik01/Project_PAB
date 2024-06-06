@@ -2,8 +2,11 @@
 {
     public interface ITravelAgencyUnitOfWork : IDisposable
     {
-        IOfferRepository OfferRepository { get; }
+        ICountryRepository CountryRepository { get; }
         ICityRepository CityRepository { get; }
+        IHotelRepository HotelRepository { get; }
+        IOfferRepository OfferRepository { get; }
+
 
         void Commit();
     }

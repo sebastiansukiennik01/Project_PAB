@@ -5,11 +5,15 @@ using NLog;
 using NLog.Web;
 using TravelAgency.Application.Mappings;
 using TravelAgency.Application.Services;
-using TravelAgency.Application.Validators;
+using TravelAgency.Application.Validators.City;
+using TravelAgency.Application.Validators.Country;
+using TravelAgency.Application.Validators.Hotel;
 using TravelAgency.Domain.Contracts;
 using TravelAgency.Infrastructure;
 using TravelAgency.Infrastructure.Repositories;
-using TravelAgency.SharedKernel.Dto;
+using TravelAgency.SharedKernel.Dto.City;
+using TravelAgency.SharedKernel.Dto.Country;
+using TravelAgency.SharedKernel.Dto.Hotel;
 using TravelAgency.WebAPI.Middleware;
 
 // Early init of NLog to allow startup and exception logging, before host is built
@@ -42,13 +46,25 @@ try
     builder.Services.AddScoped<IValidator<CreateCityDto>, RegisterCreateCityDtoValidator>();
     builder.Services.AddScoped<IValidator<UpdateCityDto>, RegisterUpdateCityDtoValidator>();
 
+    builder.Services.AddScoped<IValidator<CreateCountryDto>, RegisterCreateCountryDtoValidator>();
+    builder.Services.AddScoped<IValidator<UpdateCountryDto>, RegisterUpdateCountryDtoValidator>();
+
+    builder.Services.AddScoped<IValidator<CreateHotelDto>, RegisterCreateHotelDtoValidator>();
+    builder.Services.AddScoped<IValidator<UpdateHotelDto>, RegisterUpdateHotelDtoValidator> ();
+
     builder.Services.AddScoped<DataSeeder>();
 
     builder.Services.AddScoped<ITravelAgencyUnitOfWork, TravelAgencyUnitOfWork>();
 
+    builder.Services.AddScoped<ICountryService, CountryService>();
     builder.Services.AddScoped<ICityService, CityService>();
-    builder.Services.AddScoped<IOfferRepository, OfferRepository>();
+    builder.Services.AddScoped<IHotelService, HotelService>();
+
+    builder.Services.AddScoped<ICountryRepository, CountryRepository>();
     builder.Services.AddScoped<ICityRepository, CityRepository>();
+    builder.Services.AddScoped<IHotelRepository, HotelRepository>();
+    builder.Services.AddScoped<IOfferRepository, OfferRepository>();
+
 
     builder.Services.AddScoped<ExceptionMiddleware>();
 

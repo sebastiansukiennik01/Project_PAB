@@ -2,7 +2,7 @@
 using TravelAgency.Domain.Exceptions;
 using TravelAgency.Domain.Contracts;
 using TravelAgency.Domain.Models;
-using TravelAgency.SharedKernel.Dto;
+using TravelAgency.SharedKernel.Dto.City;
 
 namespace TravelAgency.Application.Services
 {
@@ -21,7 +21,7 @@ namespace TravelAgency.Application.Services
         {
             if (dto == null)
             {
-                throw new BadRequestException("Product is null");
+                throw new BadRequestException("City dto is null");
             }
 
             var city = _mapper.Map<City>(dto);
@@ -38,7 +38,7 @@ namespace TravelAgency.Application.Services
 
             if (city == null)
             {
-                throw new NotFoundException("Product not found");
+                throw new NotFoundException("City not found");
             }
 
             _uow.CityRepository.Delete(city);

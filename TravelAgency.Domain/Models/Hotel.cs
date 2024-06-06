@@ -27,7 +27,5 @@ namespace TravelAgency.Domain.Models
         [ForeignKey("CityId")]
         public City? City { get; set; }
 
-        public bool Pool { get; set; }
-        public bool WiFi { get; set; }
     }
 }

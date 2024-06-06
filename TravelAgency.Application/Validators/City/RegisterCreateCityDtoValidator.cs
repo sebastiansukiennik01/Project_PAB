@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using TravelAgency.Domain.Contracts;
-using TravelAgency.SharedKernel.Dto;
+using TravelAgency.SharedKernel.Dto.City;
 
-namespace TravelAgency.Application.Validators
+namespace TravelAgency.Application.Validators.City
 {
     public class RegisterCreateCityDtoValidator : AbstractValidator<CreateCityDto>
     {
@@ -19,7 +19,7 @@ namespace TravelAgency.Application.Validators
                     bool exists = unitOfWork.CityRepository.CountryExists(value);
                     if (!exists)
                     {
-                        context.AddFailure("CountryId", $"City of id {value} does not exist");
+                        context.AddFailure("CountryId", $"Country of id {value} does not exist");
                     }
                 });
         }

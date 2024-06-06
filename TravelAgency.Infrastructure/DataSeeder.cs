@@ -88,9 +88,6 @@ namespace TravelAgency.Infrastructure
                         Name = s,
                         Rate = random.Next(1, 6),
                         City = Cities[index],
-                        Pool = random.Next(0, 2) == 1 ? true : false,
-                        WiFi = random.Next(0, 2) == 1 ? true : false
-
                     };
                     Hotels.Add(hotel);
                     s = sr.ReadLine();
