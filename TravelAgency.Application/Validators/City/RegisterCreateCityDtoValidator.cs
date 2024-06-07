@@ -16,7 +16,7 @@ namespace TravelAgency.Application.Validators.City
             RuleFor(c => c.CountryId)
                 .Custom((value, context) =>
                 {
-                    bool exists = unitOfWork.CityRepository.CountryExists(value);
+                    bool exists = unitOfWork.CountryRepository.CountryExists(value);
                     if (!exists)
                     {
                         context.AddFailure("CountryId", $"Country of id {value} does not exist");

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TravelAgency.Domain.Exceptions;
-using TravelAgency.Application.Services;
 using TravelAgency.SharedKernel.Dto.Country;
+using TravelAgency.Application.Services.Interfaces;
 
 namespace TravelAgency.WebAPI.Controllers
 {

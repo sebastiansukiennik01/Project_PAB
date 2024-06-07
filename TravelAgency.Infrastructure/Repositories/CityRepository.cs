@@ -24,9 +24,9 @@ namespace TravelAgency.Infrastructure.Repositories
             return _context.City.Include(c => c.Country).FirstOrDefault(c => c.CityId == id);
         }
 
-        public bool CountryExists(int id)
+        public bool CityExists(int id)
         {
-            var result = _context.Country.Any(x => x.CountryId ==  id);
+            var result = _context.City.Any(x => x.CityId ==  id);
             return result;
         }
     }

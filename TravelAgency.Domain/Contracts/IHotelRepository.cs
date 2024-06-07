@@ -6,6 +6,6 @@ namespace TravelAgency.Domain.Contracts
     {
         public List<Hotel> GetAll();
         public Hotel Get(int id);
-        public bool CityExists(int id);
+        public bool HotelExists(int id);
     }
 }

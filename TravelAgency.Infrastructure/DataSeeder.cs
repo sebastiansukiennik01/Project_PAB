@@ -78,8 +78,11 @@ namespace TravelAgency.Infrastructure
 
             using (StreamReader sr = File.OpenText("Data/hotel_names.txt"))
             {
+                int i = 0;
+                int max = 10;
+
                 string? s = sr.ReadLine();
-                while (s != null)
+                while ((s != null) & (i++ < max))
                 {
                     Random random = new Random();
                     var index = random.Next(Cities.Count);
@@ -94,7 +97,7 @@ namespace TravelAgency.Infrastructure
                 }
             }
 
-            for (int i = 0; i < 500; i++)
+            for (int i = 0; i < 100; i++)
             {
                 Random random = new Random();
                 // To

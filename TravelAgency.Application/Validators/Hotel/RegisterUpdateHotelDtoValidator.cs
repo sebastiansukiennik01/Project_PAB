@@ -19,7 +19,7 @@ namespace TravelAgency.Application.Validators.Hotel
             RuleFor(p => p.CityId)
                 .Custom((value, context) =>
                 {
-                    bool exists = unitOfWork.HotelRepository.CityExists(value);
+                    bool exists = unitOfWork.CityRepository.CityExists(value);
                     if (!exists)
                     {
                         context.AddFailure("CityId", $"City of id {value} does not exist");

@@ -1,6 +1,6 @@
 ﻿using TravelAgency.SharedKernel.Dto.Hotel;
 
-namespace TravelAgency.Application.Services
+namespace TravelAgency.Application.Services.Interfaces
 {
     public interface IHotelService
     {

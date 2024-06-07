@@ -1,6 +1,6 @@
 ﻿using TravelAgency.SharedKernel.Dto.Country;
 
-namespace TravelAgency.Application.Services
+namespace TravelAgency.Application.Services.Interfaces
 {
     public interface ICountryService
     {

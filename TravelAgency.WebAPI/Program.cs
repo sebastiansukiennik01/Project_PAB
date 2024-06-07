@@ -4,16 +4,19 @@ using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
 using TravelAgency.Application.Mappings;
-using TravelAgency.Application.Services;
+using TravelAgency.Application.Services.Generic;
+using TravelAgency.Application.Services.Interfaces;
 using TravelAgency.Application.Validators.City;
 using TravelAgency.Application.Validators.Country;
 using TravelAgency.Application.Validators.Hotel;
+using TravelAgency.Application.Validators.Offer;
 using TravelAgency.Domain.Contracts;
 using TravelAgency.Infrastructure;
 using TravelAgency.Infrastructure.Repositories;
 using TravelAgency.SharedKernel.Dto.City;
 using TravelAgency.SharedKernel.Dto.Country;
 using TravelAgency.SharedKernel.Dto.Hotel;
+using TravelAgency.SharedKernel.Dto.Offer;
 using TravelAgency.WebAPI.Middleware;
 
 // Early init of NLog to allow startup and exception logging, before host is built
@@ -52,6 +55,9 @@ try
     builder.Services.AddScoped<IValidator<CreateHotelDto>, RegisterCreateHotelDtoValidator>();
     builder.Services.AddScoped<IValidator<UpdateHotelDto>, RegisterUpdateHotelDtoValidator> ();
 
+    builder.Services.AddScoped<IValidator<CreateOfferDto>, RegisterCreateOfferDtoValidator>();
+    builder.Services.AddScoped<IValidator<UpdateOfferDto>, RegisterUpdateOfferDtoValidator>();
+    
     builder.Services.AddScoped<DataSeeder>();
 
     builder.Services.AddScoped<ITravelAgencyUnitOfWork, TravelAgencyUnitOfWork>();
@@ -59,6 +65,7 @@ try
     builder.Services.AddScoped<ICountryService, CountryService>();
     builder.Services.AddScoped<ICityService, CityService>();
     builder.Services.AddScoped<IHotelService, HotelService>();
+    builder.Services.AddScoped<IOfferService, OfferService>();
 
     builder.Services.AddScoped<ICountryRepository, CountryRepository>();
     builder.Services.AddScoped<ICityRepository, CityRepository>();

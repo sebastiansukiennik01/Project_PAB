@@ -23,5 +23,10 @@ namespace TravelAgency.Infrastructure.Repositories
         {
             return _context.Country.FirstOrDefault(c => c.CountryId == id);
         }
+        public bool CountryExists(int id)
+        {
+            var result = _context.Country.Any(x => x.CountryId == id);
+            return result;
+        }
     }
 }

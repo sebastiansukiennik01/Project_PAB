@@ -3,8 +3,9 @@ using TravelAgency.Domain.Exceptions;
 using TravelAgency.Domain.Contracts;
 using TravelAgency.Domain.Models;
 using TravelAgency.SharedKernel.Dto.City;
+using TravelAgency.Application.Services.Interfaces;
 
-namespace TravelAgency.Application.Services
+namespace TravelAgency.Application.Services.Generic
 {
     public class CityService : ICityService
     {
@@ -13,8 +14,8 @@ namespace TravelAgency.Application.Services
 
         public CityService(ITravelAgencyUnitOfWork unitOfWork, IMapper mapper)
         {
-            this._uow = unitOfWork;
-            this._mapper = mapper;
+            _uow = unitOfWork;
+            _mapper = mapper;
         }
 
         public int Create(CreateCityDto dto)
