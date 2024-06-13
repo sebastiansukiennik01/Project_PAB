@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelAgency.Domain", "Trav
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelAgency.Infrastructure", "TravelAgency.Infrastructure\TravelAgency.Infrastructure.csproj", "{5417C553-0796-4533-86CA-FD72D0C726C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelAgency.WebAPI", "TravelAgency.WebAPI\TravelAgency.WebAPI.csproj", "{05686742-6C86-49EC-9780-6414147D717B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelAgency.WebAPI", "TravelAgency.WebAPI\TravelAgency.WebAPI.csproj", "{05686742-6C86-49EC-9780-6414147D717B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelAgency.SharedKernel", "TravelAgency.SharedKernel\TravelAgency.SharedKernel.csproj", "{5E346B20-5B39-49C7-9E2F-6E0669B03937}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelAgency.SharedKernel", "TravelAgency.SharedKernel\TravelAgency.SharedKernel.csproj", "{5E346B20-5B39-49C7-9E2F-6E0669B03937}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelAgency.BlazorServer", "TravelAgency.BlazorServer\TravelAgency.BlazorServer.csproj", "{26E0ABA0-462D-4611-BC54-59AFD12BBC22}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{5E346B20-5B39-49C7-9E2F-6E0669B03937}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E346B20-5B39-49C7-9E2F-6E0669B03937}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E346B20-5B39-49C7-9E2F-6E0669B03937}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26E0ABA0-462D-4611-BC54-59AFD12BBC22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26E0ABA0-462D-4611-BC54-59AFD12BBC22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26E0ABA0-462D-4611-BC54-59AFD12BBC22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26E0ABA0-462D-4611-BC54-59AFD12BBC22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

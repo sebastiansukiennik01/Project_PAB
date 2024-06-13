@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.9.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.31" />
+    <PackageReference Include="NLog" Version="5.3.2" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TravelAgency.Application\TravelAgency.Application.csproj" />
+    <ProjectReference Include="..\TravelAgency.Domain\TravelAgency.Domain.csproj" />
+    <ProjectReference Include="..\TravelAgency.Infrastructure\TravelAgency.Infrastructure.csproj" />
+    <ProjectReference Include="..\TravelAgency.SharedKernel\TravelAgency.SharedKernel.csproj" />
+  </ItemGroup>
+
+</Project>
