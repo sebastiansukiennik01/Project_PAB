@@ -4,28 +4,52 @@
 
 <!DOCTYPE html>
 <html lang="en">
+    ﻿
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="~/" />
+
+    <title>Vacationey</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/icons/logo.png">
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
-    <link href="css/site.css" rel="stylesheet" />
-    <link href="TravelAgency.BlazorServer.styles.css" rel="stylesheet" />
-    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+
+    @{
+        // css files
+        string[] files = Directory.GetFiles("wwwroot/css/custom");
+        foreach (string file in files)
+        {
+            var path = $"~{file[7..]}";
+            <link rel="stylesheet" href=@path asp-append-version="true" />
+        }
+    }
 </head>
+
 <body>
     @RenderBody()
 
-    <div id="blazor-error-ui">
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @{
+        // js files
+        string[] filesJS = Directory.GetFiles("wwwroot/js");
+        foreach (string file in filesJS)
+        {
+            var path = $"~{file[7..]}";
+            <script src=@path asp-append-version="true"></script>
+        }
+    }
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+@*    <div id="blazor-error-ui">
         <environment include="Staging,Production">
             An error has occurred. This application may no longer respond until reloaded.
         </environment>
         <environment include="Development">
             An unhandled exception has occurred. See browser dev tools for details.
         </environment>
-        <a href="" class="reload">Reload</a>
-        <a class="dismiss">🗙</a>
-    </div>
+    </div>*@
 
     <script src="_framework/blazor.server.js"></script>
 </body>

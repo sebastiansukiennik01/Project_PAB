@@ -1,0 +1,69 @@
+﻿@page "/offer/{id:int}"
+@inject IOfferService _offerService
+@inject IHotelService _hotelService
+@inject ICityService _cityService
+
+@inject NavigationManager _navigationManager
+
+<div class="details">
+    <img src=@path />
+    <div class="infoDetails">
+        <div class="textInfo">
+            <p>
+                Country: &nbsp;&nbsp;
+                @offer.Hotel.City.Country.Name
+            </p>
+            <p>
+                City: &nbsp;&nbsp;
+                @offer.Hotel.City.Name
+            </p>
+            <p>
+                Hotel: &nbsp;&nbsp;
+                @offer.Hotel.Name
+            </p>
+            <p>
+                Price: &nbsp;&nbsp;  @offer.Price
+                $
+            </p>
+            <p>
+                From: &nbsp;&nbsp;  @offer.DateFrom.ToString("dd.MM.yyy")
+            </p>
+            <p>
+                To: &nbsp;&nbsp;  @offer.DateTo.ToString("dd.MM.yyy")
+            </p>
+        </div>
+        <div class="details-links">
+            <a>Hotel</a>
+            <a @onclick="@(()=>Update(@offer.OfferId))">Edit</a>
+            <a onclick="window.history.back()">Back</a>
+        </div>
+    </div>
+
+
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private string path;
+    private OfferDto offer;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        offer = _offerService.GetById(Id);
+
+        // Initialize photo path here
+        string[] files = Directory.GetFiles("wwwroot/images/photos");
+        int count = files.Count();
+        var random = new Random();
+        var photoID = random.Next(1, count);
+        path = files[photoID][7..];
+    }
+
+    protected void Update(int id)
+    {
+        _navigationManager.NavigateTo($"offer/edit/{id}");
+    }
+}

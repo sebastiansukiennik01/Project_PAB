@@ -1,0 +1,38 @@
+﻿@page "/offer"
+
+@inject IOfferService _offerService
+
+<PageTitle>Offer list</PageTitle>
+
+<div id="landing-page">
+    <img src="images/photos/test1.jpg" alt="Hello">
+</div>
+
+<div id="offer_container">
+@foreach (var offer in _offerList)
+{
+    <OfferComponent Offer="offer" OnOfferDeleted="HandleOfferDeleted" />
+}
+</div>
+
+@code {
+    private List<OfferDto> _offerList = new List<OfferDto>();
+    private int _max_offers = 30;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _offerList = _offerService.GetAll().Take(_max_offers).ToList();
+    }
+
+    private async Task HandleOfferDeleted(int offerId)
+    {
+        // Remove the deleted offer from the list
+        var offerToRemove = _offerList.FirstOrDefault(o => o.OfferId == offerId);
+        if (offerToRemove != null)
+        {
+            _offerList.Remove(offerToRemove);
+            StateHasChanged(); // Trigger re-render of this component
+        }
+    }
+}

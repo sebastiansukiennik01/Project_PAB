@@ -1,25 +1,28 @@
 
 using NLog;
 using NLog.Web;
-
 using FluentValidation;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using TravelAgency.BlazorServer.Data;
-using TravelAgency.Domain;
 using TravelAgency.Application.Mappings;
 using TravelAgency.Infrastructure;
-using TravelAgency.Application.Validators;
 using TravelAgency.SharedKernel.Dto.City;
 using TravelAgency.Application.Validators.City;
 using TravelAgency.Domain.Contracts;
 using TravelAgency.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using TravelAgency.SharedKernel.Dto.Country;
 using TravelAgency.SharedKernel.Dto.Hotel;
 using TravelAgency.Application.Validators.Hotel;
+using TravelAgency.Application.Services.Generic;
+using TravelAgency.Application.Services.Interfaces;
+using TravelAgency.Application.Validators.Country;
+using TravelAgency.Application.Validators.Offer;
+using TravelAgency.SharedKernel.Dto.Country;
+using TravelAgency.SharedKernel.Dto.Offer;
 
-var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+
+// Early init of NLog to allow startup and exception logging, before host is built
+var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+logger.Debug("init main");
 
 try
 {
@@ -30,24 +33,40 @@ try
     builder.Services.AddServerSideBlazor();
     builder.Services.AddSingleton<WeatherForecastService>();
 
-    // rejestracja automappera w kontenerze IoC
+    // register automapper in contener
     builder.Services.AddAutoMapper(typeof(TravelAgencyMappingProfile));
 
-    // rejestracja kontekstu bazy w kontenerze IoC
-    var sqliteConnectionString = "Data Source=Kiosk.WebAPI.Logger.db";
+    // register db context in contener
+    var sqliteConnectionString = "Data Source=TravelAgency.WebAPI.database.db";
     builder.Services.AddDbContext<DatabaseContext>(options =>
         options.UseSqlite(sqliteConnectionString));
 
-    // rejestracja walidatora
-    //builder.Services.AddScoped<IValidator<CreateCityDto>, RegisterCreateCityDtoValidator>();
-    //builder.Services.AddScoped<IValidator<UpdateCityDto>, RegisterUpdateCityDtoValidator>();
-    //builder.Services.AddScoped<IValidator<CreateHotelDto>, RegisterCreateHotelDtoValidator>();
-    //builder.Services.AddScoped<IValidator<UpdateHotelDto>, RegisterUpdateHotelDtoValidator>();
+    // register validators
+    builder.Services.AddScoped<IValidator<CreateCityDto>, RegisterCreateCityDtoValidator>();
+    builder.Services.AddScoped<IValidator<UpdateCityDto>, RegisterUpdateCityDtoValidator>();
+
+    builder.Services.AddScoped<IValidator<CreateCountryDto>, RegisterCreateCountryDtoValidator>();
+    builder.Services.AddScoped<IValidator<UpdateCountryDto>, RegisterUpdateCountryDtoValidator>();
+
+    builder.Services.AddScoped<IValidator<CreateHotelDto>, RegisterCreateHotelDtoValidator>();
+    builder.Services.AddScoped<IValidator<UpdateHotelDto>, RegisterUpdateHotelDtoValidator>();
+
+    builder.Services.AddScoped<IValidator<CreateOfferDto>, RegisterCreateOfferDtoValidator>();
+    builder.Services.AddScoped<IValidator<UpdateOfferDto>, RegisterUpdateOfferDtoValidator>();
+
+    builder.Services.AddScoped<DataSeeder>();
 
     builder.Services.AddScoped<ITravelAgencyUnitOfWork, TravelAgencyUnitOfWork>();
-    builder.Services.AddScoped<ICityRepository, CityRepository>();
-    builder.Services.AddScoped<DataSeeder>();
+
+    builder.Services.AddScoped<ICountryService, CountryService>();
+    builder.Services.AddScoped<ICityService, CityService>();
+    builder.Services.AddScoped<IHotelService, HotelService>();
+    builder.Services.AddScoped<IOfferService, OfferService>();
+
     builder.Services.AddScoped<ICountryRepository, CountryRepository>();
+    builder.Services.AddScoped<ICityRepository, CityRepository>();
+    builder.Services.AddScoped<IHotelRepository, HotelRepository>();
+    builder.Services.AddScoped<IOfferRepository, OfferRepository>();
 
     var app = builder.Build();
 
@@ -67,6 +86,7 @@ try
 
     app.MapBlazorHub();
     app.MapFallbackToPage("/_Host");
+
 
     // seeding data
     using (var scope = app.Services.CreateScope())

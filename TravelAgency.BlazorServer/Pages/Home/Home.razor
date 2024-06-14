@@ -1,0 +1,59 @@
+﻿@page "/home"
+
+<div id="slider">
+    <img id="slidePhoto fade" src="images/icons/home.jpg" alt="">
+</div>
+
+<div id="content">
+
+    <div class="waviy text">
+        <span style="--i:1">F</span>
+        <span style="--i:2">O</span>
+        <span style="--i:3">L</span>
+        <span style="--i:4">L</span>
+        <span style="--i:5">O</span>
+        <span style="--i:6">W</span>
+        <span style="--i:7"></span>
+        <span style="--i:8">U</span>
+        <span style="--i:9">S</span>
+        <span style="--i:10">!</span>
+
+    </div>
+
+    <div id="imageContainer">
+        <input type="radio" name="radio-btn" onclick="one()" id="btn1">
+        <input type="radio" name="radio-btn" onclick="two()" id="btn2">
+        <input type="radio" name="radio-btn" onclick="three()" id="btn3">
+        <input type="radio" name="radio-btn" onclick="four()" id="btn4">
+        <div class="slide first">
+            <img src="images/photos/test3.jpg" class="photo" id="p1" alt="" />
+        </div>
+        <div class="slide">
+            <img src="images/photos/test2.jpg" class="photo" id="p2" alt="">
+        </div>
+        <div class="slide">
+            <img src="images/icons/test4.jpg" class="photo" id="p3" alt="">
+        </div>
+        <div class="slide">
+            <img src="images/photos/test15.jpg" class="photo" id="p4" alt="">
+        </div>
+
+        <div class="navig-auto">
+            <div class="auto-btn1"></div>
+            <div class="auto-btn2"></div>
+            <div class="auto-btn3"></div>
+            <div class="auto-btn4"></div>
+        </div>
+        <div class="nav-manual">
+            <label for="btn1" class="manual-btn"></label>
+            <label for="btn2" class="manual-btn"></label>
+            <label for="btn3" class="manual-btn"></label>
+            <label for="btn4" class="manual-btn"></label>
+        </div>
+    </div>
+
+    <div class="text">
+        You rest, we plan!
+    </div>
+
+</div>

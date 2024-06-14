@@ -1,0 +1,68 @@
+﻿@using SharedKernel.Dto.Offer
+@inject IOfferService _offerService
+@inject NavigationManager _navigationManager
+@inject IJSRuntime _js
+
+
+<a @onclick="@(()=>ToDetails(@Offer.OfferId))">
+    <div class="offer">
+        <img src=@path>
+
+        <div class="info">
+            <p>@Offer.Hotel.City.Country.Name</p>
+            <p>@Offer.Hotel.Name</p>
+            <p>@Offer.Price $</p>
+            <p>
+                @Offer.DateFrom.ToString("dd.MM.yyy") - @Offer.DateTo.ToString("dd.MM.yyy")
+            </p>
+        </div>
+
+        <div class="edit-delete">
+            <a @onclick="@(()=>Update(@Offer.OfferId))" class="edit">Edit</a>
+            <a @onclick="@(()=>Delete(@Offer.OfferId))" class="edit">Delete</a>
+        </div>
+
+    </div>
+</a>
+
+@code {
+    [Parameter]
+    public OfferDto Offer { get; set; }
+
+    [Parameter]
+    public EventCallback<int> OnOfferDeleted { get; set; }
+
+    private string path;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        // Initialize photo path here
+        string[] files = Directory.GetFiles("wwwroot/images/photos");
+        int count = files.Count();
+        var random = new Random();
+        var photoID = random.Next(1, count);
+        path = files[photoID][7..];
+    }
+
+    protected async Task Delete(int id)
+    {
+        var confirm = await _js.InvokeAsync<bool>("confirm", "Are You Sure You Want To Delete this Offer?");
+        if (confirm)
+        {
+            _offerService.Delete(Offer.OfferId);
+            await OnOfferDeleted.InvokeAsync(id); // Notify parent component
+        }
+    }
+
+    protected void Update(int id)
+    {
+        _navigationManager.NavigateTo($"offer/edit/{id}");
+    }
+
+    protected void ToDetails(int id)
+    {
+        _navigationManager.NavigateTo($"offer/{id}");
+    }
+}

@@ -5,10 +5,15 @@ namespace TravelAgency.Infrastructure
     public class DataSeeder
     {
         private readonly DatabaseContext _dbContext;
+        private readonly string _dataFilePath;
 
         public DataSeeder(DatabaseContext _dbContext)
         {
             this._dbContext = _dbContext;
+
+            var baseDirectory = AppContext.BaseDirectory;
+            var projectRoot = Directory.GetParent(baseDirectory)?.Parent?.Parent?.Parent?.Parent?.FullName;
+            _dataFilePath = Path.Combine(projectRoot, "TravelAgency.Infrastructure", "Data", "hotel_names.txt");
         }
         public void Seed()
         {
@@ -76,7 +81,13 @@ namespace TravelAgency.Infrastructure
 
             var Hotels = new List<Hotel>();
 
-            using (StreamReader sr = File.OpenText("Data/hotel_names.txt"))
+            if (!File.Exists(_dataFilePath))
+            {
+                throw new FileNotFoundException($"Data file not found at {_dataFilePath}");
+            }
+
+
+            using (StreamReader sr = File.OpenText(_dataFilePath))
             {
                 int i = 0;
                 int max = 10;
@@ -97,7 +108,7 @@ namespace TravelAgency.Infrastructure
                 }
             }
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 20; i++)
             {
                 Random random = new Random();
                 // To

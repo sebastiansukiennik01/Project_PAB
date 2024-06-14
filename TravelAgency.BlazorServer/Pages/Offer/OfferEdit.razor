@@ -1,0 +1,100 @@
+﻿@page "/offer/edit/{id:int}"
+@inject IOfferService _offerService
+@inject IHotelService _hotelService
+@inject ICityService _cityService
+
+@inject NavigationManager _navigationManager
+
+<PageTitle>Edit offer</PageTitle>
+<h1>Edit Offer</h1>
+<hr />
+
+<div class="createForm">
+    <EditForm Model="@_offer" OnValidSubmit="@Update">
+        <FluentValidationValidator @ref="_fluentValidationValidator" DisableAssemblyScanning="@true" />
+        <ValidationSummary />
+        <div class="form-group">
+            <label>Hotel: </label>
+            <InputSelect @bind-Value="@_offer.HotelId" class="form-control">
+                @foreach (var hotel in hotels)
+                {
+                    <option value="@hotel.HotelId">@hotel.Name</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => _offer.HotelId)" />
+        </div>
+        <div class="form-group">
+            <label>Departure City: </label>
+            <InputSelect @bind-Value="@_offer.DepartureCityId" class="form-control">
+                @foreach (var city in cities)
+                {
+                    <option value="@city.CityId">@city.Name</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => _offer.DepartureCityId)" />
+        </div>
+        <div class="form-group">
+            <label>Price: </label>
+            <InputNumber @bind-Value="@_offer.Price" class="form-control" />
+            <ValidationMessage For="@(() => _offer.Price)" />
+        </div>
+        <div class="form-group">
+            <label>Date From: </label>
+            <InputDate @bind-Value="@_offer.DateFrom" class="form-control" />
+            <ValidationMessage For="@(() => _offer.DateFrom)" />
+        </div>
+        <div class="form-group">
+            <label>Date From: </label>
+            <InputDate @bind-Value="@_offer.DateTo" class="form-control" />
+            <ValidationMessage For="@(() => _offer.DateTo)" />
+        </div>
+        <div>
+            <button id="submitCreate" type="submit">Save</button>
+            <button id="submitCreate" type="button" onclick="window.history.back()">Back</button>
+        </div>
+    </EditForm>
+</div>
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private FluentValidationValidator? _fluentValidationValidator;
+    private List<HotelDto> hotels;
+    private List<CityDto> cities;
+
+    private UpdateOfferDto _offer = null;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        hotels = _hotelService.GetAll();
+        cities = _cityService.GetAll();
+
+        var p = _offerService.GetById(Id);
+        _offer = new UpdateOfferDto() 
+        {
+            OfferId = p.OfferId,
+            HotelId = p.Hotel.HotelId,
+            DepartureCityId = p.DepartureCity.CityId,
+            Price = p.Price,
+            DateFrom = p.DateFrom,
+            DateTo = p.DateTo
+        };
+    }
+
+    private void Update()
+    {
+        _offerService.Update(_offer);
+        BackToList();
+    }
+
+    private void BackToList()
+    {
+        _navigationManager.NavigateTo("/offer");
+    }
+}
+
+
+

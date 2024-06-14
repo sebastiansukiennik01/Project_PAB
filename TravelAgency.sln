@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelAgency.WebAPI", "Trav
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelAgency.SharedKernel", "TravelAgency.SharedKernel\TravelAgency.SharedKernel.csproj", "{5E346B20-5B39-49C7-9E2F-6E0669B03937}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelAgency.BlazorServer", "TravelAgency.BlazorServer\TravelAgency.BlazorServer.csproj", "{26E0ABA0-462D-4611-BC54-59AFD12BBC22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelAgency.BlazorServer", "TravelAgency.BlazorServer\TravelAgency.BlazorServer.csproj", "{26E0ABA0-462D-4611-BC54-59AFD12BBC22}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
