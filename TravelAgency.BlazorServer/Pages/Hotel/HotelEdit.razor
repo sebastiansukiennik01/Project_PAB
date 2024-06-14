@@ -1,0 +1,80 @@
+﻿@page "/hotel/edit/{id:int}"
+@inject IHotelService _hotelService
+@inject ICityService _cityService
+
+@inject NavigationManager _navigationManager
+
+<PageTitle>Edit hotel</PageTitle>
+<h1>Edit Hotel</h1>
+<hr />
+
+<div class="createForm" id="createHotel">
+    <EditForm Model="@_hotel" OnValidSubmit="@Update">
+        <FluentValidationValidator @ref="_fluentValidationValidator" DisableAssemblyScanning="@true" />
+        <ValidationSummary />
+        <div class="form-group">
+            <label>Name: </label>
+            <InputText @bind-Value="@_hotel.Name" class="form-control" />
+            <ValidationMessage For="@(() => _hotel.Name)" />
+        </div>
+        <div class="form-group">
+            <label>City: </label>
+            <InputSelect @bind-Value="@_hotel.CityId" class="form-control">
+                @foreach (var city in cities)
+                {
+                    <option value="@city.CityId">@city.Name</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => _hotel.CityId)" />
+        </div>
+        <div class="form-group">
+            <label>Rate: </label>
+            <InputNumber @bind-Value="@_hotel.Rate" class="form-control" />
+            <ValidationMessage For="@(() => _hotel.Rate)" />
+        </div>
+        <div>
+            <button id="submitCreate" type="submit">Save</button>
+            <button id="submitCreate" type="button" onclick="window.history.back()">Back</button>
+        </div>
+    </EditForm>
+</div>
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private FluentValidationValidator? _fluentValidationValidator;
+    private List<CityDto> cities;
+
+    private UpdateHotelDto _hotel = null;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        cities = _cityService.GetAll();
+
+        var p = _hotelService.GetById(Id);
+        _hotel = new UpdateHotelDto() 
+        {
+            HotelId = p.HotelId,
+            Name = p.Name,
+            CityId = p.City.CityId,
+            Rate = p.Rate
+        };
+    }
+
+    private void Update()
+    {
+        _hotelService.Update(_hotel);
+        BackToList();
+    }
+
+    private void BackToList()
+    {
+        _navigationManager.NavigateTo("/hotel");
+    }
+}
+
+
+

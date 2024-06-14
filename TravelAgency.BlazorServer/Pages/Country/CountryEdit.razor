@@ -1,0 +1,60 @@
+﻿@page "/country/edit/{id:int}"
+@inject ICountryService _countryService
+
+@inject NavigationManager _navigationManager
+
+<PageTitle>Edit country</PageTitle>
+<h1>Edit Country</h1>
+<hr />
+
+<div class="createForm" id="createCountry">
+    <EditForm Model="@_country" OnValidSubmit="@Update">
+        <FluentValidationValidator @ref="_fluentValidationValidator" DisableAssemblyScanning="@true" />
+        <ValidationSummary />
+        <div class="form-group">
+            <label>Name: </label>
+            <InputText @bind-Value="@_country.Name" class="form-control" />
+            <ValidationMessage For="@(() => _country.Name)" />
+        </div>
+        <div>
+            <button id="submitCreate" type="submit">Save</button>
+            <button id="submitCreate" type="button" onclick="window.history.back()">Back</button>
+        </div>
+    </EditForm>
+</div>
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private FluentValidationValidator? _fluentValidationValidator;
+
+    private UpdateCountryDto _country = null;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        var p = _countryService.GetById(Id);
+        _country = new UpdateCountryDto()
+        {
+            CountryId = p.CountryId,
+            Name = p.Name
+        };
+    }
+
+    private void Update()
+    {
+        _countryService.Update(_country);
+        BackToList();
+    }
+
+    private void BackToList()
+    {
+        _navigationManager.NavigateTo("/country");
+    }
+}
+
+
+

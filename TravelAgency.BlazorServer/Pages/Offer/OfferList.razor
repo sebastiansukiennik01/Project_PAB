@@ -8,12 +8,10 @@
     <img src="images/photos/test1.jpg" alt="Hello">
 </div>
 
-<div id="offer_container">
 @foreach (var offer in _offerList)
 {
     <OfferComponent Offer="offer" OnOfferDeleted="HandleOfferDeleted" />
 }
-</div>
 
 @code {
     private List<OfferDto> _offerList = new List<OfferDto>();

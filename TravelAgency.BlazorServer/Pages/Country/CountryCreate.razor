@@ -1,0 +1,54 @@
+﻿@page "/country/create"
+@inject ICountryService _countryService
+
+@inject NavigationManager _navigationManager
+
+<PageTitle>Create country</PageTitle>
+<h1>Create Country</h1>
+<hr />
+
+<div class="createForm" id="createCountry">
+    <EditForm Model="@_country" OnValidSubmit="@Create">
+        <FluentValidationValidator @ref="_fluentValidationValidator" DisableAssemblyScanning="@true" />
+        <ValidationSummary />
+        <div class="form-group">
+            <label>Name: </label>
+            <InputText @bind-Value="@_country.Name" class="form-control" />
+            <ValidationMessage For="@(() => _country.Name)" />
+        </div>
+        <div>
+            <button id="submitCreate" type="submit">Save</button>
+            <button id="submitCreate" type="button" onclick="window.history.back()">Back</button>
+        </div>
+    </EditForm>
+</div>
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private FluentValidationValidator? _fluentValidationValidator;
+
+    private CreateCountryDto _country = new CreateCountryDto();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _country.Name = "Country";
+    }
+
+    private void Create()
+    {
+        _countryService.Create(_country);
+        BackToList();
+    }
+
+    private void BackToList()
+    {
+        _navigationManager.NavigateTo("/country");
+    }
+}
+
+
+

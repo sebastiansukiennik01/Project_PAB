@@ -1,0 +1,30 @@
+﻿@page "/hotel"
+
+@inject IHotelService _hotelService
+
+@foreach (var hotel in _hotelList)
+{
+    <HotelComponent Hotel="hotel" OnHotelDeleted="HandleHotelDeleted" />
+}
+
+
+@code {
+    private List<HotelDto> _hotelList = new List<HotelDto>();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _hotelList = _hotelService.GetAll();
+    }
+
+    private async Task HandleHotelDeleted(int hotelId)
+    {
+        // Remove the deleted hotel from the list
+        var hotelToRemove = _hotelList.FirstOrDefault(o => o.HotelId == hotelId);
+        if (hotelToRemove != null)
+        {
+            _hotelList.Remove(hotelToRemove);
+            StateHasChanged(); // Trigger re-render of this component
+        }
+    }
+}

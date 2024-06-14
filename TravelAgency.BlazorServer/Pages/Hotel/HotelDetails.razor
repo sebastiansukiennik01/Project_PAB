@@ -1,0 +1,57 @@
+﻿@page "/hotel/{id:int}"
+@inject IHotelService _hotelService
+
+@inject NavigationManager _navigationManager
+
+<div class="details">
+    <img src=@path />
+    <div class="infoDetails">
+        <div class="textInfo">
+            <p>Name: &nbsp;&nbsp; @Hotel.Name</p>
+            <p>City: &nbsp;&nbsp; @Hotel.City.Name</p>
+            <p>Name: &nbsp;&nbsp; @Hotel.Name</p>
+            <p id="stars">
+                @for (int i = 0; i < @Hotel.Rate; i++)
+                {
+                    <span class="star">&#9733;</span>
+                }
+                @for (int i = @Hotel.Rate; i < 5; i++)
+                {
+                    <span class="star">&#9734;</span>
+                }
+            </p>
+        </div>
+        <div class="details-links">
+            <a @onclick="@(()=>Update(@Hotel.HotelId))">Edit</a>
+            <a onclick="window.history.back()">Back</a>
+        </div>
+    </div>
+
+
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private string path;
+    private HotelDto Hotel;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Hotel = _hotelService.GetById(Id);
+
+        // Initialize photo path here
+        string[] files = Directory.GetFiles("wwwroot/images/photos");
+        int count = files.Count();
+        var random = new Random();
+        var photoID = random.Next(1, count);
+        path = files[photoID][7..];
+    }
+
+    protected void Update(int id)
+    {
+        _navigationManager.NavigateTo($"hotel/edit/{id}");
+    }
+}

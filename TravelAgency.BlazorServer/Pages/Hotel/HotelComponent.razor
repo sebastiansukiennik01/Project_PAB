@@ -1,0 +1,73 @@
+﻿@inject IHotelService _hotelService
+@inject NavigationManager _navigationManager
+@inject IJSRuntime _js
+
+
+<a @onclick="@(()=>ToDetails(@Hotel.HotelId))">
+    <div class="offer">
+        <img src=@path>
+
+        <div class="info">
+            <p>@Hotel.Name</p>
+            <p>@Hotel.City.Name</p>
+            <div id="stars">
+                @for (int i = 0; i < Hotel.Rate; i++)
+                {
+                    <span class="star">&#9733;</span>
+                }
+                @for (int i = Hotel.Rate; i < 5; i++)
+                {
+                    <span class="star">&#9734;</span>
+                }
+            </div>
+
+        </div>
+        <div class="edit-delete">
+            <a @onclick="@(()=>Update(@Hotel.HotelId))" class="edit">Edit</a>
+            <a @onclick:stopPropagation @onclick="@(()=>Delete(@Hotel.HotelId))" class="edit">Delete</a>
+        </div>
+    </div>
+</a>
+
+@code {
+    [Parameter]
+    public HotelDto Hotel { get; set; }
+
+    [Parameter]
+    public EventCallback<int> OnHotelDeleted { get; set; }
+
+    private string path;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        // Initialize photo path here
+        string[] files = Directory.GetFiles("wwwroot/images/photos");
+        int count = files.Count();
+        var random = new Random();
+        var photoID = random.Next(1, count);
+        path = files[photoID][7..];
+    }
+
+    protected async Task Delete(int id)
+    {
+        var confirm = await _js.InvokeAsync<bool>("confirm", "Are You Sure You Want To Delete this Hotel?");
+        if (confirm)
+        {
+            _hotelService.Delete(id);
+            await OnHotelDeleted.InvokeAsync(id); // Notify parent component
+            StateHasChanged();
+        }
+    }
+
+    protected void Update(int id)
+    {
+        _navigationManager.NavigateTo($"hotel/edit/{id}");
+    }
+
+    protected void ToDetails(int id)
+    {
+        _navigationManager.NavigateTo($"hotel/{id}");
+    }
+}

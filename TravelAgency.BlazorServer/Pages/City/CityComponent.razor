@@ -1,0 +1,38 @@
+﻿@inject NavigationManager _navigationManager
+@inject IJSRuntime _js
+@inject ICityService _cityService
+
+<tr class="city">
+    <td>@City.Name</td>
+    <td>@City.Country.Name</td>
+    <td>
+        <div class="deleteForm">
+            <a @onclick="@(()=>Update(@City.CityId))" class="edit">Edit</a>
+            <a @onclick="@(()=>Delete(@City.CityId))" class="edit">Delete</a>
+        </div>
+    </td>
+</tr>
+
+@code {
+    [Parameter]
+    public CityDto City { get; set; }
+
+    [Parameter]
+    public EventCallback<int> OnCityDeleted { get; set; }
+
+    protected async Task Delete(int id)
+    {
+        var confirm = await _js.InvokeAsync<bool>("confirm", "Are You Sure You Want To Delete this City?");
+        if (confirm)
+        {
+            _cityService.Delete(id);
+            await OnCityDeleted.InvokeAsync(id); // Notify parent component
+            StateHasChanged();
+        }
+    }
+
+    protected void Update(int id)
+    {
+        _navigationManager.NavigateTo($"city/edit/{id}");
+    }
+}

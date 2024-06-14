@@ -1,0 +1,66 @@
+﻿@page "/hotel/create"
+@inject IHotelService _hotelService
+@inject ICityService _cityService
+
+@inject NavigationManager _navigationManager
+
+<PageTitle>Create Hotel</PageTitle>
+<h1>Create Hotel</h1>
+<hr />
+
+<div class="createForm" id="createHotel">
+    <EditForm Model="@_hotel" OnValidSubmit="@Create">
+        <FluentValidationValidator @ref="_fluentValidationValidator" DisableAssemblyScanning="@true" />
+        <ValidationSummary />
+        <div class="form-group">
+            <label>Name: </label>
+            <InputText @bind-Value="@_hotel.Name" class="form-control" />
+            <ValidationMessage For="@(() => _hotel.Name)" />
+        </div>
+        <div class="form-group">
+            <label>City: </label>
+            <InputSelect @bind-Value="@_hotel.CityId" class="form-control">
+                @foreach (var city in cities)
+                {
+                    <option value="@city.CityId">@city.Name</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => _hotel.CityId)" />
+        </div>
+        <div class="form-group">
+            <label>Rate: </label>
+            <InputNumber @bind-Value="@_hotel.Rate" class="form-control" />
+            <ValidationMessage For="@(() => _hotel.Rate)" />
+        </div>
+        <div>
+            <button id="submitCreate" type="submit">Save</button>
+            <button id="submitCreate" type="button" onclick="window.history.back()">Back</button>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    private CreateHotelDto _hotel = new CreateHotelDto();
+    private FluentValidationValidator? _fluentValidationValidator;
+    private List<CityDto> cities;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        _hotel.Rate = 3;
+        _hotel.Name = "Hotel";
+        cities = _cityService.GetAll();
+    }
+
+    private void Create()
+    {
+        _hotelService.Create(_hotel);
+        BackToList();
+    }
+
+    private void BackToList()
+    {
+        _navigationManager.NavigateTo("/hotel");
+    }
+}

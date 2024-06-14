@@ -1,0 +1,71 @@
+﻿@page "/country"
+
+@inject NavigationManager _navigationManager
+@inject IJSRuntime _js
+@inject ICountryService _countryService
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var country in _countryList)
+        {
+            <tr>
+                <td>
+                    @country.Name
+                </td>
+                <td>
+                    <div id="deleteForm">
+                        <a @onclick="@(()=>Update(@country.CountryId))" class="edit">Edit</a>
+                        <a @onclick="@(()=>Delete(@country.CountryId))" class="edit">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@code {
+    private List<CountryDto> _countryList = new List<CountryDto>();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _countryList = _countryService.GetAll();
+    }
+
+    protected async Task Delete(int id)
+    {
+        var confirm = await _js.InvokeAsync<bool>("confirm", "Are You Sure You Want To Delete this Country?");
+        if (confirm)
+        {
+            _countryService.Delete(id);
+
+            // Remove the deleted country from the list
+            var countryToRemove = _countryList.FirstOrDefault(o => o.CountryId == id);
+            if (countryToRemove != null)
+            {
+                _countryList.Remove(countryToRemove);
+            }
+
+            StateHasChanged();
+        }
+    }
+
+    protected void Update(int id)
+    {
+        _navigationManager.NavigateTo($"country/edit/{id}");
+    }
+
+    protected void Create()
+    {
+        _navigationManager.NavigateTo($"country/create");
+    }
+}

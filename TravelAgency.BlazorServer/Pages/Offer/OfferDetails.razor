@@ -33,7 +33,7 @@
             </p>
         </div>
         <div class="details-links">
-            <a>Hotel</a>
+            <a @onclick="@(()=>ToHotel(@offer.Hotel.HotelId))">Hotel</a>
             <a @onclick="@(()=>Update(@offer.OfferId))">Edit</a>
             <a onclick="window.history.back()">Back</a>
         </div>
@@ -65,5 +65,10 @@
     protected void Update(int id)
     {
         _navigationManager.NavigateTo($"offer/edit/{id}");
+    }
+
+    protected void ToHotel(int id)
+    {
+        _navigationManager.NavigateTo($"hotel/{id}");
     }
 }

@@ -1,0 +1,60 @@
+﻿@page "/city/create"
+@inject ICountryService _countryService
+@inject ICityService _cityService
+
+@inject NavigationManager _navigationManager
+
+<PageTitle>Create City</PageTitle>
+<h1>Create City</h1>
+<hr />
+
+<div class="createForm" id="createCity">
+    <EditForm Model="@_city" OnValidSubmit="@Create">
+        <FluentValidationValidator @ref="_fluentValidationValidator" DisableAssemblyScanning="@true" />
+        <ValidationSummary />
+        <div class="form-group">
+            <label>Name: </label>
+            <InputText @bind-Value="@_city.Name" class="form-control" />
+            <ValidationMessage For="@(() => _city.Name)" />
+        </div>
+        <div class="form-group">
+            <label>Country: </label>
+            <InputSelect @bind-Value="@_city.CountryId" class="form-control">
+                @foreach (var country in countries)
+                {
+                    <option value="@country.CountryId">@country.Name</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => _city.CountryId)" />
+        </div>
+        <div>
+            <button id="submitCreate" type="submit">Save</button>
+            <button id="submitCreate" type="button" onclick="window.history.back()">Back</button>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    private CreateCityDto _city = new CreateCityDto();
+    private FluentValidationValidator? _fluentValidationValidator;
+    private List<CountryDto> countries;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        _city.Name = "City";
+        countries = _countryService.GetAll();
+    }
+
+    private void Create()
+    {
+        _cityService.Create(_city);
+        BackToList();
+    }
+
+    private void BackToList()
+    {
+        _navigationManager.NavigateTo("/city");
+    }
+}

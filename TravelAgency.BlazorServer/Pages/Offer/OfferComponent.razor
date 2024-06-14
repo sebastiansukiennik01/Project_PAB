@@ -1,5 +1,4 @@
-﻿@using SharedKernel.Dto.Offer
-@inject IOfferService _offerService
+﻿@inject IOfferService _offerService
 @inject NavigationManager _navigationManager
 @inject IJSRuntime _js
 
@@ -19,7 +18,7 @@
 
         <div class="edit-delete">
             <a @onclick="@(()=>Update(@Offer.OfferId))" class="edit">Edit</a>
-            <a @onclick="@(()=>Delete(@Offer.OfferId))" class="edit">Delete</a>
+            <a @onclick:stopPropagation @onclick="@(()=>Delete(@Offer.OfferId))" class="edit">Delete</a>
         </div>
 
     </div>

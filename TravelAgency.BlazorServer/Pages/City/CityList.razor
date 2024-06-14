@@ -1,0 +1,46 @@
+﻿@page "/city"
+
+@inject ICityService _cityService
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Country
+            </th>
+            <th>
+                Options
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var city in _cityList)
+        {
+            <CityComponent City="city" OnCityDeleted="HandleCityDeleted" />
+        }
+    </tbody>
+</table>
+
+@code {
+    private List<CityDto> _cityList = new List<CityDto>();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _cityList = _cityService.GetAll();
+    }
+
+    private async Task HandleCityDeleted(int cityId)
+    {
+        // Remove the deleted city from the list
+        var cityToRemove = _cityList.FirstOrDefault(o => o.CityId == cityId);
+        if (cityToRemove != null)
+        {
+            _cityList.Remove(cityToRemove);
+            StateHasChanged(); // Trigger re-render of this component
+        }
+    }
+}
