@@ -25,6 +25,7 @@ logger.Debug("init main");
 
 try
 {
+    var policyName = "TravelAgency";
     var builder = WebApplication.CreateBuilder(args);
 
     // NLog: Setup NLog for Dependency injection
@@ -72,8 +73,12 @@ try
     builder.Services.AddScoped<IHotelRepository, HotelRepository>();
     builder.Services.AddScoped<IOfferRepository, OfferRepository>();
 
-
     builder.Services.AddScoped<ExceptionMiddleware>();
+
+    builder.Services.AddCors(o => o.AddPolicy(policyName, builder =>
+    {
+        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+    }));
 
     var app = builder.Build();
 
@@ -101,6 +106,7 @@ try
         dataSeeder.Seed();
     }
 
+    app.UseCors(policyName);
     app.Run();
 }
 catch (Exception exception)

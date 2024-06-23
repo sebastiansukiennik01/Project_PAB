@@ -1,0 +1,34 @@
+﻿@page "/offer"
+@page "/"
+@page "/home"
+
+@inject IOfferService _offerService
+
+<PageTitle>Offer list</PageTitle>
+
+@foreach (var offer in _offerList)
+{
+    <OfferComponent Offer="offer" OnOfferDeleted="HandleOfferDeleted" />
+}
+
+@code {
+    private List<OfferDto> _offerList = new List<OfferDto>();
+    private int _max_offers = 30;
+
+    protected override async Task OnInitializedAsync()
+    {
+        base.OnInitialized();
+        _offerList = await _offerService.GetAll();
+    }
+
+    private async Task HandleOfferDeleted(int offerId)
+    {
+        // Remove the deleted offer from the list
+        var offerToRemove = _offerList.FirstOrDefault(o => o.OfferId == offerId);
+        if (offerToRemove != null)
+        {
+            _offerList.Remove(offerToRemove);
+            StateHasChanged(); // Trigger re-render of this component
+        }
+    }
+}

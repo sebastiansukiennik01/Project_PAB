@@ -2,7 +2,6 @@
 using NLog;
 using NLog.Web;
 using FluentValidation;
-using TravelAgency.BlazorServer.Data;
 using TravelAgency.Application.Mappings;
 using TravelAgency.Infrastructure;
 using TravelAgency.SharedKernel.Dto.City;
@@ -31,7 +30,6 @@ try
     // Add services to the container.
     builder.Services.AddRazorPages();
     builder.Services.AddServerSideBlazor();
-    builder.Services.AddSingleton<WeatherForecastService>();
 
     // register automapper in contener
     builder.Services.AddAutoMapper(typeof(TravelAgencyMappingProfile));

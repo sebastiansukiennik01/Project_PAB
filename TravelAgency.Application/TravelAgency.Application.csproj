@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TravelAgency.Domain\TravelAgency.Domain.csproj" />
     <ProjectReference Include="..\TravelAgency.SharedKernel\TravelAgency.SharedKernel.csproj" />
   </ItemGroup>
 

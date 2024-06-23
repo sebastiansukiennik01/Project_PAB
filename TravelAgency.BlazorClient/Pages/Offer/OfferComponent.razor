@@ -1,0 +1,39 @@
+﻿@inject IOfferService _offerService
+@inject NavigationManager _navigationManager
+
+<a>
+    <div class="offer">
+        <img src=@path>
+
+        <div class="info">
+            <p>@Offer.Hotel.City.Country.Name</p>
+            <p>@Offer.Hotel.Name</p>
+            <p>@Offer.Price $</p>
+            <p>
+                @Offer.DateFrom.ToString("dd.MM.yyy") - @Offer.DateTo.ToString("dd.MM.yyy")
+            </p>
+        </div>
+    </div>
+</a>
+
+@code {
+    [Parameter]
+    public OfferDto Offer { get; set; }
+
+    [Parameter]
+    public EventCallback<int> OnOfferDeleted { get; set; }
+
+    private string path;
+
+    protected override async Task OnInitializedAsync()
+    {
+        base.OnInitialized();
+
+        // Initialize photo path here
+        //string[] files = Directory.GetFiles("images/photos"); // runs on client-side, does not have access to images directory
+        int count = 14; 
+        var random = new Random();
+        var photoID = random.Next(1, count);
+        path = $"images/photos/test{photoID}.jpg";
+    }
+}
