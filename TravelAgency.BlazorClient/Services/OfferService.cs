@@ -26,5 +26,12 @@ namespace TravelAgency.BlazorClient.Services
             return new List<OfferDto>();
 
         }
+
+        public async Task<OfferDto> GetById(int id)
+        {
+            var offers = await this.GetAll();
+            var result = offers.FirstOrDefault(o => o.OfferId == id);
+            return result;
+        }
     }
 }

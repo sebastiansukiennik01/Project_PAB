@@ -1,0 +1,56 @@
+﻿@page "/offer/{id:int}"
+@inject IOfferService _offerService
+
+<div class="details">
+    <img src=@path />
+    <div class="infoDetails">
+        <div class="textInfo">
+            <p>
+                Country: &nbsp;&nbsp;
+                @offer.Hotel.City.Country.Name
+            </p>
+            <p>
+                City: &nbsp;&nbsp;
+                @offer.Hotel.City.Name
+            </p>
+            <p>
+                Hotel: &nbsp;&nbsp;
+                @offer.Hotel.Name
+            </p>
+            <p>
+                Price: &nbsp;&nbsp;  @offer.Price
+                $
+            </p>
+            <p>
+                From: &nbsp;&nbsp;  @offer.DateFrom.ToString("dd.MM.yyy")
+            </p>
+            <p>
+                To: &nbsp;&nbsp;  @offer.DateTo.ToString("dd.MM.yyy")
+            </p>
+        </div>
+        <div class="details-links">
+            <a onclick="window.history.back()">Back</a>
+        </div>
+    </div>
+
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private string path;
+    private OfferDto offer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        base.OnInitialized();
+        offer = await _offerService.GetById(Id);
+
+        int count = 14;
+        var random = new Random();
+        var photoID = random.Next(1, count);
+        path = $"images/photos/test{photoID}.jpg";
+    }
+
+}
